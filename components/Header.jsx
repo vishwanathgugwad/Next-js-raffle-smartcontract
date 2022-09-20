@@ -5,14 +5,15 @@ export default function Header(){
 
     const {enableWeb3 ,account , isWeb3Enabled,Moralis,deactivateWeb3,isWeb3EnableLoading} = useMoralis()
 
-    useEffect(()=>{
-      if(!isWeb3Enabled && typeof window !== "undefined"){
-        if(window.localStorage.getItem("connected")){
-            enableWeb3()
+    useEffect(() => {
+        if (isWeb3Enabled) return
+        if (typeof window !== "undefined") {
+            if (window.localStorage.getItem("connected")) {
+                enableWeb3()
+                // enableWeb3({provider: window.localStorage.getItem("connected")}) -- add walletconnect
+            }
         }
-
-      }
-    },[isWeb3Enabled])
+    }, [isWeb3Enabled])
 
     useEffect(()=>{
         Moralis.onAccountChanged((account) => {
